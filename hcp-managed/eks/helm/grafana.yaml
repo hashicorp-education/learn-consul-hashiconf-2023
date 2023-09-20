@@ -1,0 +1,94 @@
+# Do not use this configuration in production.
+# It is for demonstration purposes only.
+
+env:
+  GF_EXPLORE_ENABLED: true
+  GF_PANELS_DISABLE_SANITIZE_HTML: true
+  GF_LOG_FILTERS: rendering:debug
+  GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
+  GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
+  GF_DATE_FORMATS_INTERVAL_SECOND: "hh:mm:ss a"
+  GF_DATE_FORMATS_INTERVAL_MINUTE: "hh:mm a"
+  GF_DATE_FORMATS_INTERVAL_HOUR: "DD/MM hh:mm a"
+  GF_DATE_FORMATS_INTERVAL_DAY: "DD/MM"
+  GF_DATE_FORMATS_INTERVAL_MONTH: "MM-YYYY"
+  GF_DATE_FORMATS_INTERVAL_YEAR: "YYYY"
+  GF_AUTH_ANONYMOUS_ENABLED: true
+  GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+  GF_AUTH_DISABLE_LOGIN_FORM: true
+
+#adminPassword: admin
+
+rbac:
+  create: false
+  pspEnabled: false
+
+# Disable test pods
+testFramework:
+  enabled: false
+
+podLabels:
+  app: grafana
+
+podAnnotations:
+  "consul.hashicorp.com/connect-inject": "false"
+
+## Expose the grafana service to be accessed from outside the cluster (LoadBalancer service).
+## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+## ref: http://kubernetes.io/docs/user-guide/services/
+##
+
+service:
+  enabled: true
+  type: LoadBalancer
+  port: 80
+  targetPort: 3000
+    # targetPort: 4181 To be used with a proxy extraContainer
+  ## Service annotations. Can be templated.
+  annotations: {}
+  labels: {}
+  portName: service
+  # Adds the appProtocol field to the service. This allows to work with istio protocol selection. Ex: "http" or "tcp"
+  appProtocol: ""
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://prometheus-server.observability.svc.cluster.local:80/
+        basicAuth: false
+        version: 1
+        editable: true
+        isDefault: true
+      - name: Loki
+        type: loki
+        access: proxy
+        orgId: 1
+        url: http://loki.observability.svc.cluster.local:3100/
+        basicAuth: false
+        version: 1
+        editable: true
+        apiVersion: 1
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+dashboards:
+  default:
+    health-monitoring:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-metrics/main/dashboards/hashicups-health-monitoring.json
+    performance-monitoring:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-metrics/main/dashboards/hashicups-performance-monitoring.json
