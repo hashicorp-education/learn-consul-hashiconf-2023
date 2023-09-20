@@ -46,7 +46,19 @@ consul-k8s upgrade -config-file=helm/consul-v3-control-plane.yaml
 # Modify the anonymous ACL policy to allow agent read permissions so Prometheus is allowed to scrape metrics
 consul acl policy update -name "anonymous-token-policy" \
                         -datacenter "dc1" \
-                        -rules @consul/rules.hcl
+                        -rules @acl-policies/rules.hcl
+
+
+consul acl policy update -name "anonymous-token-policy" \
+                        -datacenter "dc1" \
+                        -rules @acl-policies/rules2.hcl
+
+# Go to Grafana URL and check out CONTROL PLANE dashboards
+export GRAFANA_URL=http://$(kubectl get svc/grafana --namespace observability -o json | jq -r '.status.loadBalancer.ingress[0].hostname') && \
+echo $GRAFANA_URL
+
+
+# HCP PORTAL TIME
 
 # Go to HCP Portal
 https://portal.cloud.hashicorp.com/
