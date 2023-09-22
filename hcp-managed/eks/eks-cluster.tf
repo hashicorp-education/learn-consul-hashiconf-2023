@@ -31,7 +31,7 @@ module "eks" {
     consul = {
       name = "consul"
 
-      instance_types = ["t3a.medium"]
+      instance_types = ["c5d.large"]
 
       min_size     = 1
       max_size     = 5

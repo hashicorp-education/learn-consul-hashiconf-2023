@@ -88,7 +88,11 @@ dashboardProviders:
         path: /var/lib/grafana/dashboards/default
 dashboards:
   default:
-    health-monitoring:
-      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-metrics/main/dashboards/hashicups-health-monitoring.json
-    performance-monitoring:
-      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-metrics/main/dashboards/hashicups-performance-monitoring.json
+    data-plane-access-logs:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-hashiconf-2023/main/dashboards/consul-data-plane-access-logs.json
+    data-plane-health-metrics:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-hashiconf-2023/main/dashboards/consul-data-plane-health.json
+    data-plane-performance-metrics:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-hashiconf-2023/main/dashboards/consul-data-plane-performance.json
+    control-plane-hcp-managed-logs:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-hashiconf-2023/main/dashboards/consul-control-plane-hcp-managed-logs.json

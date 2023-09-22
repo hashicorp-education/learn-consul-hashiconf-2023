@@ -24,7 +24,7 @@ global:
     # Enables Consul servers and clients metrics.
     enableAgentMetrics: true
     # Configures the retention time for metrics in Consul servers and clients.
-    agentMetricsRetentionTime: "1m"
+    agentMetricsRetentionTime: "59m"
 
 # Configuration for Consul servers when the servers are running outside of Kubernetes.
 externalServers:
@@ -41,15 +41,12 @@ server:
 # Configures the automatic Connect sidecar injector.
 connectInject:
   enabled: true
-  # Enables metrics for Consul Connect sidecars.
-  metrics:
-    defaultEnabled: true
-  # Configuration settings for the Consul transparent proxy.
-  transparentProxy:
-    defaultEnabled: true
   # Configuration settings for the Consul API Gateway integration.
   apiGateway:
     manageExternalCRDs: true
+    # Configuration settings for the GatewayClass
     managedGatewayClass:
       serviceType: LoadBalancer
-  default: true
+  # Enables metrics for Consul Connect sidecars.
+  metrics:
+    defaultEnabled: true

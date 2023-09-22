@@ -22,13 +22,13 @@ server:
   enabled: true
   # The number of server agents to run. This determines the fault tolerance of the cluster.
   replicas: 3
-  #resources:
-    #requests:
-      #memory: "1461Mi" # 75% of 2GB Mem
-      #cpu: "500m"
-    #limits:
-      #memory: "1461Mi"
-      #cpu: "1000m"
+  resources:
+    requests:
+      memory: "1461Mi"
+      cpu: "500m"
+    limits:
+      memory: "1461Mi"
+      cpu: "1000m"
 
 # Contains values that configure the Consul UI.
 ui:

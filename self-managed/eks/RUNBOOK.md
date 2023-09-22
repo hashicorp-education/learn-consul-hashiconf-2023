@@ -13,9 +13,6 @@ export CONSUL_HTTP_SSL_VERIFY=false
 # Notice that Consul services exist
 consul catalog services
 
-# MANUALLY SET UP GRAFANA DASHBOARDS FOR BETA TEACH
-# THIS WILL BE AUTOMATIC FOR TUTORIAL
-
 # DATA PLANE TIME
 
 # Upgrade Consul to enable data plane metrics
@@ -48,10 +45,6 @@ consul acl policy update -name "anonymous-token-policy" \
                         -datacenter "dc1" \
                         -rules @acl-policies/rules.hcl
 
-
-consul acl policy update -name "anonymous-token-policy" \
-                        -datacenter "dc1" \
-                        -rules @acl-policies/rules2.hcl
 
 # Go to Grafana URL and check out CONTROL PLANE dashboards
 export GRAFANA_URL=http://$(kubectl get svc/grafana --namespace observability -o json | jq -r '.status.loadBalancer.ingress[0].hostname') && \

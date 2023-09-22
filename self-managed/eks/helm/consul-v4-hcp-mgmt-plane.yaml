@@ -21,7 +21,8 @@ global:
   # Exposes Prometheus metrics for the Consul service mesh and sidecars.
   metrics:
     enabled: true
-    enableGatewayMetrics: true
+    # Enables Consul gateway metrics.
+    #enableGatewayMetrics: true
     # Enables Consul servers and clients metrics.
     enableAgentMetrics: true
     # Configures the retention time for metrics in Consul servers and clients.
