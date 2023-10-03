@@ -1,3 +1,9 @@
+# Clone companion repository
+git clone https://github.com/hashicorp-education/learn-consul-hashiconf-2023.git
+
+# Ensure AWS credentials are set for Terraform on the CLI
+
+# Run Terraform
 terraform init
 terraform apply --auto-approve
 # wait 15 minutes for build
@@ -5,7 +11,7 @@ terraform apply --auto-approve
 # Connect to EKS
 aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw kubernetes_cluster_id)
 
-# Set environment variables
+# Set Consul environment variables
 export CONSUL_HTTP_TOKEN=$(kubectl get --namespace consul secrets/consul-bootstrap-acl-token --template={{.data.token}} | base64 -d) && \
 export CONSUL_HTTP_ADDR=https://$(kubectl get services/consul-ui --namespace consul -o jsonpath='{.status.loadBalancer.ingress[0].hostname}') && \
 export CONSUL_HTTP_SSL_VERIFY=false
@@ -17,9 +23,7 @@ consul catalog services
 
 # Upgrade Consul to enable data plane metrics
 consul-k8s upgrade -config-file=helm/consul-v2-data-plane.yaml
-# The upgrade takes about 4-5 mins
-
-# Review data plane helm lines while it's upgrading
+# wait 4-5 mins for upgrade
 
 # Update proxy defaults to enable proxy access logs
 kubectl apply --filename proxy/proxy-defaults.yaml

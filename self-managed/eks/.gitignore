@@ -1,9 +1,0 @@
-cert_config.json
-kubeconfig*
-vault_token.json
-.terraform
-.terraform.tfstate.lock.info
-.terraform.tfstate
-terraform.tfstate
-terraform.tfstate.backup
-fortio-consul-tests
