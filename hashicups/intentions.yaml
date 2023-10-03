@@ -67,7 +67,7 @@ spec:
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: api-gateway
+  name: nginx
 # Allow traffic from api-gateway to nginx
 spec:
   destination:

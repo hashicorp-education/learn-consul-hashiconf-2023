@@ -2,31 +2,29 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: payments
+  name: public-api
   namespace: default
   labels:
-    app: payments
+    app: public-api
 spec:
   type: ClusterIP
   ports:
-    - name: http
-      protocol: TCP
-      port: 8080
+    - port: 8080
       targetPort: 8080
   selector:
-    app: payments
+    app: public-api
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: payments
+  name: public-api
   namespace: default
 automountServiceAccountToken: true
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceDefaults
 metadata:
-  name: payments
+  name: public-api
   namespace: default
 spec:
   protocol: "http"
@@ -34,26 +32,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payments
+  name: public-api
   namespace: default
-  labels:
-    app: payments
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: payments
+      service: public-api
+      app: public-api
   template:
     metadata:
       labels:
-        app: payments
+        service: public-api
+        app: public-api
       annotations:
         consul.hashicorp.com/connect-inject: "true"
+        # consul.hashicorp.com/connect-inject: "false"
     spec:
-      serviceAccountName: payments
+      serviceAccountName: public-api
       containers:
-        - name: payments
-          image: hashicorpdemoapp/payments:v0.0.16
+        - name: public-api
+          image: hashicorpdemoapp/public-api:v0.0.6
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+          env:
+            - name: BIND_ADDRESS
+              value: ":8080"
+            - name: PRODUCT_API_URI
+              value: "http://product-api:9090"
+            - name: PAYMENT_API_URI
+              value: "http://payments:1800"
