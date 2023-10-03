@@ -17,6 +17,7 @@ consul catalog services
 
 # Upgrade Consul to enable data plane metrics
 consul-k8s upgrade -config-file=helm/consul-v2-data-plane.yaml
+# The upgrade takes about 4-5 mins
 
 # Review data plane helm lines while it's upgrading
 
@@ -38,6 +39,9 @@ echo $GRAFANA_URL
 
 # Upgrade Consul to enable control plane metrics
 consul-k8s upgrade -config-file=helm/consul-v3-control-plane.yaml
+# The upgrade takes about 4-5 mins
+
+# Review control plane helm lines while it's upgrading
 
 # THE ANONYMOUS POLICY IS RESET EACH CONSUL UPGRADE
 # Modify the anonymous ACL policy to allow agent read permissions so Prometheus is allowed to scrape metrics
@@ -71,3 +75,5 @@ consul-k8s upgrade -config-file=helm/consul-v4-hcp-mgmt-plane.yaml
 
 # Check out Consul (optional)
 echo $CONSUL_HTTP_ADDR && echo $CONSUL_HTTP_TOKEN
+OR
+check it out via HCP UI
