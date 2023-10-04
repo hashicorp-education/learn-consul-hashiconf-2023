@@ -21,14 +21,14 @@ global:
   # Exposes Prometheus metrics for the Consul service mesh and sidecars.
   metrics:
     enabled: true
+    # Enables Consul Telemetry Collector
+    enableTelemetryCollector: true
     # Enables Consul gateway metrics.
     #enableGatewayMetrics: true
     # Enables Consul servers and clients metrics.
     enableAgentMetrics: true
     # Configures the retention time for metrics in Consul servers and clients.
     agentMetricsRetentionTime: "59m"
-  # Enables Consul Telemetry Collector
-  enableTelemetryCollector: true
   # Configures self-managed cluster for linking to HCP Consul
   cloud:
     enabled: true
@@ -42,7 +42,7 @@ global:
       secretName: "consul-hcp-client-secret"
       secretKey: "client-secret"
 
-# Enables and configures Consul telemetry collector
+# Configures Consul data plane telemetry collector
 telemetryCollector:
   enabled: true
   cloud:
@@ -99,9 +99,3 @@ connectInject:
   # Enables metrics for Consul Connect sidecars.
   metrics:
     defaultEnabled: true
-
-
-
-
-
-

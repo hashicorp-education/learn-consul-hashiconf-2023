@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -596,25 +595,50 @@
           "text": "nginx",
           "value": "nginx"
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "definition": "label_values(app)",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "app",
-        "options": [],
-        "query": {
-          "query": "label_values(app)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
+        "options": [
+          {
+            "selected": true,
+            "text": "nginx",
+            "value": "nginx"
+          },
+          {
+            "selected": false,
+            "text": "frontend",
+            "value": "frontend"
+          },
+          {
+            "selected": false,
+            "text": "public-api",
+            "value": "public-api"
+          },
+          {
+            "selected": false,
+            "text": "product-api",
+            "value": "product-api"
+          },
+          {
+            "selected": false,
+            "text": "payments",
+            "value": "payments"
+          },
+          {
+            "selected": false,
+            "text": "product-db",
+            "value": "product-db"
+          },
+          {
+            "selected": false,
+            "text": "traffic",
+            "value": "traffic"
+          }
+        ],
+        "query": "nginx, frontend, public-api, product-api, payments, product-db, traffic",
         "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
+        "type": "custom"
       }
     ]
   },
