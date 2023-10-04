@@ -39,20 +39,21 @@ echo $CONSUL_APIGW_ADDR
 export GRAFANA_URL=http://$(kubectl get svc/grafana --namespace observability -o json | jq -r '.status.loadBalancer.ingress[0].hostname') && \
 echo $GRAFANA_URL
 
+# Set the Consul annotation to true in hashicups/public-api.yaml
+# To fix the issue
+
+# Go back to the HashiCups UI to check that it is now working
+
 # CONTROL PLANE TIME
 
 # Upgrade Consul to enable control plane metrics
 consul-k8s upgrade -config-file=helm/consul-v3-control-plane.yaml
-# The upgrade takes about 4-5 mins
+# wait 4-5 mins for upgrade
 
-# Review control plane helm lines while it's upgrading
-
-# THE ANONYMOUS POLICY IS RESET EACH CONSUL UPGRADE
 # Modify the anonymous ACL policy to allow agent read permissions so Prometheus is allowed to scrape metrics
 consul acl policy update -name "anonymous-token-policy" \
                         -datacenter "dc1" \
                         -rules @acl-policies/rules.hcl
-
 
 # Go to Grafana URL and check out CONTROL PLANE dashboards
 export GRAFANA_URL=http://$(kubectl get svc/grafana --namespace observability -o json | jq -r '.status.loadBalancer.ingress[0].hostname') && \
@@ -68,16 +69,14 @@ https://portal.cloud.hashicorp.com/
 
 # Upgrade Consul to enable HCP management plane metrics
 consul-k8s upgrade -config-file=helm/consul-v4-hcp-mgmt-plane.yaml
+# wait 4-5 mins for upgrade
 
-# Give it a couple minutes to sync
+# Deploy service intentions for the consul-telemetry-collector
 
-# Review Architecture diagram
+# Redeploy HashiCups with updated proxy configurations that configure Envoy to send metrics to the Consul Telemetry Collector
 
-# Come back to check out portal and observability insights
+kubectl rollout restart deployment --namespace default
 
-# Summary
+# Give it a couple minutes to sync then check out HCP observability insights
 
-# Check out Consul (optional)
-echo $CONSUL_HTTP_ADDR && echo $CONSUL_HTTP_TOKEN
-OR
-check it out via HCP UI
+# Check out Consul management via HCP UI (optional)

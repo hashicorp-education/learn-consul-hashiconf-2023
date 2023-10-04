@@ -27,6 +27,9 @@ global:
     enableAgentMetrics: true
     # Configures the retention time for metrics in Consul servers and clients.
     agentMetricsRetentionTime: "59m"
+  # Enables Consul Telemetry Collector
+  enableTelemetryCollector: true
+  # Configures self-managed cluster for linking to HCP Consul
   cloud:
     enabled: true
     resourceId:
@@ -38,6 +41,17 @@ global:
     clientSecret:
       secretName: "consul-hcp-client-secret"
       secretKey: "client-secret"
+
+# Enables and configures Consul telemetry collector
+telemetryCollector:
+  enabled: true
+  cloud:
+    clientId:
+      secretKey: "client-id"
+      secretName: "consul-hcp-observability-client-id"
+    clientSecret:
+      secretKey: "client-secret"
+      secretName: "consul-hcp-observability-client-secret"
 
 # Configures values that configure the Consul server cluster.
 server:
@@ -85,3 +99,9 @@ connectInject:
   # Enables metrics for Consul Connect sidecars.
   metrics:
     defaultEnabled: true
+
+
+
+
+
+
