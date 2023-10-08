@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -540,9 +541,9 @@
         "prettifyLogMessage": false,
         "showCommonLabels": false,
         "showLabels": false,
-        "showTime": false,
+        "showTime": true,
         "sortOrder": "Descending",
-        "wrapLogMessage": false
+        "wrapLogMessage": true
       },
       "targets": [
         {
@@ -550,8 +551,8 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "builder",
-          "expr": "{container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} |= `` | json",
+          "editorMode": "code",
+          "expr": "{container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} |= `` | json |= `\"response_code\":` |= `$raw_log_filter` ",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "queryType": "range",
           "refId": "A"
@@ -639,6 +640,26 @@
         "query": "nginx, frontend, public-api, product-api, payments, product-db, traffic",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "503",
+          "value": "503"
+        },
+        "hide": 0,
+        "label": "Log Filter: Response Code",
+        "name": "raw_log_filter",
+        "options": [
+          {
+            "selected": true,
+            "text": "503",
+            "value": "503"
+          }
+        ],
+        "query": "503",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },

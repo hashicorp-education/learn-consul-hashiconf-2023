@@ -22,7 +22,9 @@ consul catalog services
 # DATA PLANE TIME
 
 # Upgrade Consul to enable data plane metrics
-consul-k8s upgrade -config-file=helm/consul-v2-data-plane.yaml
+consul-k8s upgrade -config-file=helm/consul-v2-data-plane.yaml -wait=false
+OR
+helm upgrade --values helm/consul-v2-data-plane.yaml consul hashicorp/consul --namespace consul --version "1.2.1" --no-hooks  
 # wait 4-5 mins for upgrade
 
 # Update proxy defaults to enable proxy access logs
@@ -51,7 +53,10 @@ echo $CONSUL_APIGW_ADDR
 #
 
 # Upgrade Consul to enable control plane metrics
-consul-k8s upgrade -config-file=helm/consul-v3-control-plane.yaml
+consul-k8s upgrade -config-file=helm/consul-v3-control-plane.yaml -wait=false
+OR
+helm upgrade --values helm/consul-v3-control-plane.yaml consul hashicorp/consul --namespace consul --version "1.2.1" --no-hooks
+
 # wait 4-5 mins for upgrade
 
 # Modify the anonymous ACL policy to allow agent read permissions so Prometheus is allowed to scrape metrics
@@ -73,6 +78,8 @@ https://portal.cloud.hashicorp.com/
 
 # Upgrade Consul to enable HCP management plane metrics
 consul-k8s upgrade -config-file=helm/consul-v4-hcp-mgmt-plane.yaml
+OR
+helm upgrade --values helm/consul-v3-control-plane.yaml consul hashicorp/consul --namespace consul --version "1.2.1" --no-hooks
 # wait 4-5 mins for upgrade
 
 # Deploy service intentions for the consul-telemetry-collector
